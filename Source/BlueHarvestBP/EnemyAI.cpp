@@ -13,7 +13,7 @@ AEnemyAI::AEnemyAI()
 void AEnemyAI::BeginPlay()
 {
     Super::BeginPlay();
-    
+    AIState = EAIState::Start;
 }
 
 // Called every frame

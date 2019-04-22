@@ -9,7 +9,7 @@
 
 #include "EnemyAI.generated.h"
 
-enum class EAIState : uint8 { Start UMETA(DisplayName="Start"), Attack UMETA(DisplayName = "Attack"), Idle UMETA(DisplayName = "Idle") };
+enum class EAIState : uint8 { Start UMETA(DisplayName="Start"), Attack UMETA(DisplayName = "Attack"), Idle UMETA(DisplayName = "Idle"), Dead UMETA(DisplayName = "Dead") };
 
 UCLASS()
 class BLUEHARVESTBP_API AEnemyAI : public AAIController
@@ -28,4 +28,6 @@ protected:
     virtual void Possess(APawn* Pawn) override;
     
     APawn* PossessedPawn;
+    
+    EAIState AIState;
 };
