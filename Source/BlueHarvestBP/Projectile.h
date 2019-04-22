@@ -3,46 +3,38 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "Runtime/Engine/Classes/Components/CapsuleComponent.h"
+#include "GameFramework/Pawn.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Projectile.generated.h"
 
 UCLASS()
-class BLUEHARVESTBP_API AProjectile : public AActor
+class BLUEHARVESTBP_API AProjectile : public APawn
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
+
+public:
+    // Sets default values for this pawn's properties
     AProjectile();
     
     // StartVelocity is initial direction and speed
     // Homing time is time it takes to rotate 90 degrees
     // acceleration is multiplier for speed
-	AProjectile(FVector StartVelocity, AActor* Target, float HomingFactor, float Acceleration);
-
+    AProjectile(FVector StartVelocity, USceneComponent* Target, float HomingAccel, float Acceleration);
+    
     // Called every frame
     virtual void Tick(float DeltaTime) override;
-
+    
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
     
     UPROPERTY(EditAnywhere, Category = "Components")
     UStaticMeshComponent* Mesh;
     UPROPERTY(EditAnywhere, Category = "Components")
     UCapsuleComponent* Collider;
     
-    FVector Velocity;
-    float Acceleration;
-    float HomingFactor;
+    UProjectileMovementComponent* Driver;
     
-    AActor* Target;
-    
-    FVector TargetDir();
-    
-    
-    
-
-
+    FVector Acceleration;
 };
