@@ -9,14 +9,12 @@
 #include "Components/CapsuleComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
-
-
 #include "Enemy.generated.h"
 
 //Normal is also the count - 1, so Normal must remain LAST
 //Do NOT specify values, they must be from 0 to Normal - 1
 //UPROPERTY(VisibleAnywhere)
-enum class DmgType : uint8 { Normal UMETA(DisplayName="Normal") };
+enum class DamageType : uint8 { Normal UMETA(DisplayName="Normal") };
 
 
 UCLASS()
@@ -38,7 +36,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
     
-    virtual void DealDamage(float Damage, AActor* Target, DmgType Type);
+    virtual void DealDamage(float Damage, AActor* Target, DamageType Type);
     virtual void Die();
     virtual FRotator FacePlayer();
     

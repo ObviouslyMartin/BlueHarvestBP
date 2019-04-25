@@ -20,6 +20,28 @@ void AShipAI::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
     
+    switch(AIState)
+    {
+        case EAIState::Start:
+            
+            break;
+            
+        case EAIState::Positioning:
+            
+            break;
+            
+        case EAIState::Attack:
+            
+            break;
+            
+        case EAIState::Idle:
+            
+            break;
+            
+        case EAIState::Dead:
+            
+            break;
+    }
 }
 
 void AShipAI::Possess(APawn* Pawn)

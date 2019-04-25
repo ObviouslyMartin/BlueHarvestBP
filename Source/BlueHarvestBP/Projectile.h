@@ -15,12 +15,14 @@ class BLUEHARVESTBP_API AProjectile : public APawn
 
 public:
     // Sets default values for this pawn's properties
+//    UPROPERTY(BlueprintCallable)
     AProjectile();
     
     // StartVelocity is initial direction and speed
     // Homing time is time it takes to rotate 90 degrees
     // acceleration is multiplier for speed
-    AProjectile(FVector StartVelocity, USceneComponent* Target, float HomingAccel, float Acceleration);
+//    UPROPERTY(BlueprintCallable)
+    void Initialize(FVector StartVelocity, USceneComponent* Target, float HomingAccel, float Acceleration);
     
     // Called every frame
     virtual void Tick(float DeltaTime) override;

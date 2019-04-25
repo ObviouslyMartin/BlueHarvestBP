@@ -21,7 +21,7 @@ float AShip::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AC
     return float();
 }
 
-void AShip::DealDamage(float Damage, AActor* Target, DmgType Type)
+void AShip::DealDamage(float Damage, AActor* Target, DamageType Type)
 {
     Super::DealDamage(Damage, Target, Type);
 }

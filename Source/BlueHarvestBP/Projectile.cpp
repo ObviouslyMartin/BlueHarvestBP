@@ -3,20 +3,24 @@
 #include "Projectile.h"
 
 // Sets default values
-AProjectile::AProjectile() : AProjectile(FVector(1), NULL, 0, 0) { }
-
-AProjectile::AProjectile(FVector StartVelocity, USceneComponent* Target, float HomingAccel, float Acceleration): Acceleration(Acceleration)
+AProjectile::AProjectile() : Acceleration(0)
 {
-    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-    PrimaryActorTick.bCanEverTick = true;
-    
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
     Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
     Collider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collider"));
     Driver = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Driver"));
+}
+
+void AProjectile::Initialize(FVector StartVelocity, USceneComponent* Target, float HomingAccel, float Acceleration)
+{
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = true;
+    
+    this->Acceleration = FVector(Acceleration);
+    
     
     Driver->Velocity = StartVelocity;
-    Driver->bIsHomingProjectile = true;
+    Driver->bIsHomingProjectile = HomingAccel;
     Driver->HomingAccelerationMagnitude = HomingAccel;
     Driver->HomingTargetComponent = Target;
     

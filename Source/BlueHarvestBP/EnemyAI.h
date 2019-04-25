@@ -9,7 +9,7 @@
 
 #include "EnemyAI.generated.h"
 
-enum class EAIState : uint8 { Start UMETA(DisplayName="Start"), Attack UMETA(DisplayName = "Attack"), Idle UMETA(DisplayName = "Idle"), Dead UMETA(DisplayName = "Dead") };
+enum class EAIState : uint8 { Start UMETA(DisplayName="Start"), Positioning UMETA(DisplayName = "Positioning"), Attack UMETA(DisplayName = "Attack"), Idle UMETA(DisplayName = "Idle"), Dead UMETA(DisplayName = "Dead") };
 
 UCLASS()
 class BLUEHARVESTBP_API AEnemyAI : public AAIController

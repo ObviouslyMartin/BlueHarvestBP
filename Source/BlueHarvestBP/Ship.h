@@ -24,7 +24,7 @@ public:
     
     
 private:
-    virtual void DealDamage(float Damage, AActor* Target, DmgType Type) override;
+    virtual void DealDamage(float Damage, AActor* Target, DamageType Type) override;
     virtual void Die() override;
     virtual FRotator FacePlayer() override;
     

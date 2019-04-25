@@ -35,11 +35,11 @@ void AEnemy::BeginPlay()
     Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
     
     
-    while((DmgMultipliers.Num() < (int(DmgType::Normal) + 1)))
+    while((DmgMultipliers.Num() < (int(DamageType::Normal) + 1)))
     {
         DmgMultipliers.Add(1.0f);
     }
-    DmgMultipliers.SetNum(int(DmgType::Normal) + 1, true);
+    DmgMultipliers.SetNum(int(DamageType::Normal) + 1, true);
 	
 }
 
@@ -48,7 +48,7 @@ float AEnemy::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, A
     return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);;
 }
 
-void AEnemy::DealDamage(float Damage, AActor* Target, DmgType Type)
+void AEnemy::DealDamage(float Damage, AActor* Target, DamageType Type)
 {
     Target->TakeDamage(Damage, FDamageEvent(), GetInstigatorController(), this);
 
