@@ -8,7 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Projectile.generated.h"
 
-UCLASS()
+UCLASS(ClassGroup="BlueHarvest")
 class BLUEHARVESTBP_API AProjectile : public APawn
 {
 	GENERATED_BODY()
@@ -16,27 +16,31 @@ class BLUEHARVESTBP_API AProjectile : public APawn
 public:
     // Sets default values for this pawn's properties
 //    UPROPERTY(BlueprintCallable)
+//    UFUNCTION(BlueprintCallable)
     AProjectile();
     
     // StartVelocity is initial direction and speed
     // Homing time is time it takes to rotate 90 degrees
-    // acceleration is multiplier for speed
-//    UPROPERTY(BlueprintCallable)
-    void Initialize(FVector StartVelocity, USceneComponent* Target, float HomingAccel, float Acceleration);
+    // acceleration is added to the velocity over the course of one second
+    UFUNCTION(BlueprintCallable)
+//    UPROPERTY(Category = "Projectile")
+    void Initialize(FVector StartVelocity, USceneComponent* Target, float HomingAccel, FVector Acceleration);
     
     // Called every frame
+    UFUNCTION(BlueprintCallable)
     virtual void Tick(float DeltaTime) override;
     
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
     
-    UPROPERTY(EditAnywhere, Category = "Components")
+    UPROPERTY(EditAnywhere, Category = "Projectile")
     UStaticMeshComponent* Mesh;
-    UPROPERTY(EditAnywhere, Category = "Components")
+    UPROPERTY(EditAnywhere, Category = "Projectile")
     UCapsuleComponent* Collider;
     
     UProjectileMovementComponent* Driver;
     
+    UPROPERTY(EditAnywhere, Category = "Projectile")
     FVector Acceleration;
 };

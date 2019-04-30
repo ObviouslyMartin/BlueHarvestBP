@@ -25,4 +25,11 @@ protected:
     virtual void Tick(float DeltaTime) override;
     virtual void Possess(APawn* Pawn) override;
     
+    virtual FVector Position();
+    virtual bool isPositioned();
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    FVector RelPlayerPos;
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float PosTollerance;
+    
 };

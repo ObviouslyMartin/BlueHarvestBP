@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "ShipAI.h"
-
+#include "Enemy.h"
 
 AShipAI::AShipAI() : AEnemyAI()
 {
@@ -23,7 +23,7 @@ void AShipAI::Tick(float DeltaTime)
     switch(AIState)
     {
         case EAIState::Start:
-            
+            AIState = EAIState::Positioning;
             break;
             
         case EAIState::Positioning:
@@ -38,6 +38,10 @@ void AShipAI::Tick(float DeltaTime)
             
             break;
             
+        case EAIState::Leaving:
+            
+            break;
+            
         case EAIState::Dead:
             
             break;
@@ -48,4 +52,17 @@ void AShipAI::Possess(APawn* Pawn)
 {
     Super::Possess(Pawn);
     
+}
+
+FVector AShipAI::Position()
+{
+    auto Dest = Player->GetActorLocation() + RelPlayerPos;
+    MoveToLocation(Dest);
+    return Dest;
+}
+
+bool AShipAI::isPositioned()
+{
+    FVector PosDiff = (Player->GetActorLocation() + RelPlayerPos) - PossessedPawn->GetActorLocation();
+    return PosTollerance >= PosDiff.Size();
 }

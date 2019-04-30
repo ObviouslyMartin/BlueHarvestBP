@@ -14,6 +14,7 @@ void AEnemyAI::BeginPlay()
 {
     Super::BeginPlay();
     AIState = EAIState::Start;
+    Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 }
 
 // Called every frame
