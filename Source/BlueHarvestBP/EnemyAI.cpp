@@ -13,14 +13,14 @@ AEnemyAI::AEnemyAI()
 void AEnemyAI::BeginPlay()
 {
     Super::BeginPlay();
-    
+    AIState = EAIState::Start;
+    Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 }
 
 // Called every frame
 void AEnemyAI::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-    
     
 }
 

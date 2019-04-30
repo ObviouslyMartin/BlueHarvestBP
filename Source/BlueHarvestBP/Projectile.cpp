@@ -3,20 +3,36 @@
 #include "Projectile.h"
 
 // Sets default values
-AProjectile::AProjectile() : AProjectile(FVector(1), NULL, 0, 0) { }
+AProjectile::AProjectile() : Acceleration(0)
+{
+    RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+    Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+    Mesh->SetupAttachment(RootComponent);
+    Collider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collider"));
+    Collider->SetupAttachment(RootComponent);
+    Driver = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Driver"));
+    
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereShape(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
+    if (SphereShape.Succeeded())
+    {
+        Mesh->SetStaticMesh(SphereShape.Object);
+    }
+}
 
-AProjectile::AProjectile(FVector StartVelocity, USceneComponent* Target, float HomingAccel, float Acceleration): Acceleration(Acceleration)
+void AProjectile::Initialize(FVector StartVelocity, USceneComponent* Target, float HomingAccel, FVector Acceleration)
 {
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
     
-    RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-    Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-    Collider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collider"));
-    Driver = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Driver"));
+    this->Acceleration = FVector(Acceleration);
     
+//    Driver->SetUpdatedComponent(RootComponent);
+//    Driver->bSimulationEnabled = true;
+    
+    Driver->ProjectileGravityScale = 0;
     Driver->Velocity = StartVelocity;
-    Driver->bIsHomingProjectile = true;
+    Driver->UpdateComponentVelocity();
+    Driver->bIsHomingProjectile = bool(HomingAccel);
     Driver->HomingAccelerationMagnitude = HomingAccel;
     Driver->HomingTargetComponent = Target;
     
@@ -34,6 +50,8 @@ void AProjectile::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
     Driver->Velocity += (Acceleration/DeltaTime);
+    Driver->UpdateComponentVelocity();
+
     
 }
 
