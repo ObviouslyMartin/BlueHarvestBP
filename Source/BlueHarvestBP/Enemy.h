@@ -27,9 +27,12 @@ public:
 	AEnemy();
     
     //Allows others to deal damage to this
+    UFUNCTION(BlueprintCallable)
     virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
     
+    UFUNCTION(BlueprintCallable)
     float GetHealth() const;
+    UFUNCTION(BlueprintCallable)
     float GetMaxHealth() const;
     
 protected:

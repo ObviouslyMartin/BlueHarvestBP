@@ -13,8 +13,9 @@ AEnemy::AEnemy():
     
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
     Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+    Mesh->SetupAttachment(RootComponent);
     Collider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collider"));
-    
+    Collider->SetupAttachment(RootComponent);
 }
 
 float AEnemy::GetHealth() const

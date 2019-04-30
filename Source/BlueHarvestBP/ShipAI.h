@@ -24,12 +24,16 @@ protected:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
     virtual void Possess(APawn* Pawn) override;
+    virtual void OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type Result) override;
     
-    virtual FVector Position();
+    
+    virtual FVector MoveIntoPosition();
+    virtual void MatchPlayerVel();
     virtual bool isPositioned();
-    UPROPERTY(EditAnywhere, Category = "Stats")
+    
     FVector RelPlayerPos;
-    UPROPERTY(EditAnywhere, Category = "Stats")
     float PosTollerance;
+    
+
     
 };

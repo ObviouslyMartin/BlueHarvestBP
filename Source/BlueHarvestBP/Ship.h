@@ -17,16 +17,21 @@ class BLUEHARVESTBP_API AShip : public AEnemy
 public:
     AShip();
     
-    virtual void BeginPlay() override;
-    
     //Allows others to deal damage to this
     virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
     
     
-private:
+protected:
+    virtual void BeginPlay() override;
+
     virtual void DealDamage(float Damage, AActor* Target, DamageType Type) override;
     virtual void Die() override;
     virtual FRotator FacePlayer() override;
 
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    FVector RelPlayerPos;
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float PosTollerance;
     
+    friend class AShipAI;
 };

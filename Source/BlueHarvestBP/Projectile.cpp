@@ -12,10 +12,10 @@ AProjectile::AProjectile() : Acceleration(0)
     Collider->SetupAttachment(RootComponent);
     Driver = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Driver"));
     
-    static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
-    if (SphereVisualAsset.Succeeded())
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereShape(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
+    if (SphereShape.Succeeded())
     {
-        Mesh->SetStaticMesh(SphereVisualAsset.Object);
+        Mesh->SetStaticMesh(SphereShape.Object);
     }
 }
 
