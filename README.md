@@ -4,7 +4,7 @@
 
 [Lego Star Wars II: The Original Trilogy](<https://www.models-resource.com/gamecube/legostarwarsiitheoriginaltrilogy/>)
 
-[Clara.io Star Wars](https://clara.io/library?query=star wars&gameCheck=true&public=true&page=1&perPage=24)
+[Clara.io Star Wars](https://clara.io/library?query=star+wars&gameCheck=true&public=true&page=1&perPage=24)
 
 [Texture Haven](https://texturehaven.com/)
 
