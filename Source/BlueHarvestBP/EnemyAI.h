@@ -29,7 +29,8 @@ protected:
     
     APawn* PossessedPawn;
     AActor* Player;
-
     
     EAIState AIState;
+    
+    float RotSpeed;
 };

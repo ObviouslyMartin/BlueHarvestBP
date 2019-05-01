@@ -29,7 +29,7 @@ void AShipAI::Tick(float DeltaTime)
             
         case EAIState::Position:
             if (isPositioned()) { AIState = EAIState::Attack; }
-            else { MoveIntoPosition(); }
+            else { MoveIntoPosition(MaxSpeed * DeltaTime); }
             break;
             
         case EAIState::Attack:
@@ -37,7 +37,8 @@ void AShipAI::Tick(float DeltaTime)
             else
             {
                 MatchPlayerVel();
-                
+                auto PossessedShip = (AShip*)PossessedPawn;
+                if (PossessedShip && Player) { PossessedShip->FacePlayer(RotSpeed/DeltaTime); }
             }
             break;
             
@@ -63,8 +64,9 @@ void AShipAI::Possess(APawn* Pawn)
     {
         RelPlayerPos = PossessedShip->RelPlayerPos;
         PosTollerance = PossessedShip->PosTollerance;
+        MaxSpeed = PossessedShip->MaxSpeed;
+        Acceleration = PossessedShip->Acceleration;
     }
-    
 }
 
 void AShipAI::OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type Result)
@@ -73,7 +75,7 @@ void AShipAI::OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type
     AIState = EAIState::Attack;
 }
 
-FVector AShipAI::MoveIntoPosition()
+FVector AShipAI::MoveIntoPosition(float MoveSize)
 {
     auto Dest = FVector(0);
     if (Player)
@@ -81,11 +83,30 @@ FVector AShipAI::MoveIntoPosition()
         Dest = Player->GetActorLocation();
     }
     Dest += RelPlayerPos;
-    if (GEngine) { GEngine->AddOnScreenDebugMessage(0, 1.f, FColor::Orange, FString::Printf(TEXT("Dest: %f, %f, %f"),Dest.X, Dest.Y, Dest.Z)); }
-    if(GetMoveStatus() == EPathFollowingStatus::Idle)
-    {
-        MoveToLocation(Dest, 0);
+//    if (GEngine) { GEngine->AddOnScreenDebugMessage(0, 1.f, FColor::Orange, FString::Printf(TEXT("Dest: %f, %f, %f"),Dest.X, Dest.Y, Dest.Z)); }
+//    if(GetMoveStatus() == EPathFollowingStatus::Idle)
+//    {
+//        MoveToLocation(Dest, 0);
+//    }
+//    AActor::AddActorLocalOffset(PossessedPawn->GetActorLocation() - Dest);
+    auto CurrLoc = PossessedPawn->GetActorLocation();
+    auto PosDiff = Dest - CurrLoc;
+    auto Move = PosDiff.GetSafeNormal() * MoveSize;
+    FVector* NewPos;
+    if (GEngine) { GEngine->AddOnScreenDebugMessage(2, 1.f, FColor::Orange, FString::Printf(TEXT("PosDiff: %f, Move: %f"),PosDiff.Size(), Move.Size())); }
+    if (PosDiff.Size() < Move.Size())
+    {//would move too far, move into place instead
+        NewPos = &Dest;
+        AIState = EAIState::Attack;
     }
+    else
+    {//not in place yet
+        Move += PossessedPawn->GetActorLocation();
+        NewPos = &(Move);
+    }
+    PossessedPawn->SetActorLocation(*NewPos);
+    PossessedPawn->SetActorRotation(PosDiff.Rotation());
+    
     return Dest;
 }
 
@@ -95,11 +116,17 @@ bool AShipAI::isPositioned()
     if (Player) { Player->GetActorLocation(); }
     auto PawnLoc = FVector(0);
     if (PossessedPawn) { PawnLoc = PossessedPawn->GetActorLocation(); }
-    FVector PosDiff = (PlayerLoc + RelPlayerPos) - PawnLoc;
+    auto PossessedShip = (AShip*)PossessedPawn;
+    FVector PosDiff = (PlayerLoc + PossessedShip->RelPlayerPos) - PawnLoc;
     return PosTollerance >= PosDiff.Size();
 }
 
 void AShipAI::MatchPlayerVel()
 {
-    AActor::AddActorLocalOffset(Player->GetVelocity());
+    auto PossessedShip = (AShip*)PossessedPawn;
+    if (Player && PossessedShip)
+    {
+//        AActor::AddActorLocalOffset(Player->GetVelocity());
+        PossessedShip->SetActorLocation(Player->GetActorLocation() + RelPlayerPos);
+    }
 }

@@ -41,7 +41,7 @@ protected:
     
     virtual void DealDamage(float Damage, AActor* Target, DamageType Type);
     virtual void Die();
-    virtual FRotator FacePlayer();
+    virtual FRotator FacePlayer(float RotAmount);
     
     AActor* Player;
     UPROPERTY(EditAnywhere, Category = "Components")
@@ -49,6 +49,8 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Components")
     UCapsuleComponent* Collider;
     
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float RotSpeed;
     UPROPERTY(EditAnywhere, Category = "Stats")
     float MaxHealth;
     float CurrentHealth;
@@ -61,5 +63,7 @@ protected:
     //  Extra entrees will be discarded. Non-specified entries will be set to one.
     UPROPERTY(EditAnywhere, Category = "Stats")
     TArray<float> DmgMultipliers;
+    
+    friend class AEnemyAI;
     
 };

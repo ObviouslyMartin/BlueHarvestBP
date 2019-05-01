@@ -6,6 +6,8 @@
 AShip::AShip() : Super::AEnemy()
 {
     AIControllerClass = AShipAI::StaticClass();
+    MaxSpeed = 20;
+    Acceleration = 10;
     
 //    static ConstructorHelpers::FObjectFinder<UStaticMesh> UFOMesh(TEXT("/Game/Flying/Meshes/UFO.UFO"));
 //    if (UFOMesh.Succeeded())
@@ -39,12 +41,6 @@ void AShip::Die()
     Super::Die();
 }
 
-FRotator AShip::FacePlayer()
-{
-    Super::FacePlayer();
-    
-    return FRotator();
-}
 
 
 

@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "EnemyAI.h"
+#include "Enemy.h"
 
 AEnemyAI::AEnemyAI()
 {
@@ -28,6 +29,11 @@ void AEnemyAI::Possess(APawn* Pawn)
 {
     Super::Possess(Pawn);
     PossessedPawn = Pawn;
+    auto PossessedEnemy = (AEnemy*) Pawn;
+    if (PossessedEnemy)
+    {
+        RotSpeed = PossessedEnemy->RotSpeed;
+    }
     
 }
 

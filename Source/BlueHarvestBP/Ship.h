@@ -26,12 +26,15 @@ protected:
 
     virtual void DealDamage(float Damage, AActor* Target, DamageType Type) override;
     virtual void Die() override;
-    virtual FRotator FacePlayer() override;
 
     UPROPERTY(EditAnywhere, Category = "Stats")
     FVector RelPlayerPos;
     UPROPERTY(EditAnywhere, Category = "Stats")
     float PosTollerance;
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float MaxSpeed;
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float Acceleration;
     
     friend class AShipAI;
 };

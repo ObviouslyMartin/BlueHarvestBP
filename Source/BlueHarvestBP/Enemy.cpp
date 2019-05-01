@@ -60,10 +60,29 @@ void AEnemy::Die()
     
 }
 
-FRotator AEnemy::FacePlayer()
+FRotator AEnemy::FacePlayer(float RotAmount)
 {
-    FRotator PlayerRelativeRot = (Player->GetActorLocation() - GetActorLocation()).Rotation();
-    SetActorRotation(PlayerRelativeRot);
+    auto ToPlayerVec = Player->GetActorLocation() - GetActorLocation();
+    auto PlayerRelativeRot = ToPlayerVec.Rotation();
+
+    if (RotAmount == 0)
+    {
+        SetActorRotation(PlayerRelativeRot);
+    }
+    else
+    {
+        auto RotAxis = FVector::CrossProduct(ToPlayerVec, GetActorForwardVector());
+        auto NewForward = GetActorForwardVector().RotateAngleAxis(RotAmount, RotAxis);
+        if (FVector::DotProduct(GetActorForwardVector(), NewForward) > FVector::DotProduct(GetActorForwardVector(), ToPlayerVec))
+        {//if would rotate too far
+            SetActorRotation(PlayerRelativeRot);
+        }
+        else
+        {
+            SetActorRotation(NewForward.Rotation());
+        }
+        
+    }
     
     return PlayerRelativeRot;
 }
