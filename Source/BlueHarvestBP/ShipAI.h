@@ -4,12 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "EnemyAI.h"
-//#include "Ship.cpp"
 #include "ShipAI.generated.h"
 
-/**
- * 
- */
+
+class BLUEHARVESTBP_API AShip;
+
 UCLASS()
 class BLUEHARVESTBP_API AShipAI : public AEnemyAI
 {
@@ -28,19 +27,9 @@ protected:
     virtual void OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type Result) override;
     
     
-    virtual FVector MoveIntoPosition(float MoveSize);
-    virtual void MatchPlayerVel();
-    virtual bool isPositioned();
-    
-//    AShip* PossessedShip;
-    
-    FVector RelPlayerPos;
-    float PosTollerance;
-    
-    float MaxSpeed;
-    float Acceleration;
-    float RotSpeed;
-    
-
+    virtual FVector PositionShip(float MoveSize, bool FaceForward = false);
+    virtual bool isPositioned(float Tolerance);
+        
+    AShip* Ship;
     
 };

@@ -11,6 +11,8 @@
 
 enum class EAIState : uint8 { Start UMETA(DisplayName="Start"), Position UMETA(DisplayName = "Position"), Attack UMETA(DisplayName = "Attack"), Idle UMETA(DisplayName = "Idle"), Leave UMETA(DisplayName = "Leave"), Dead UMETA(DisplayName = "Dead") };
 
+class BLUEHARVESTBP_API AEnemy;
+
 UCLASS()
 class BLUEHARVESTBP_API AEnemyAI : public AAIController
 {
@@ -27,8 +29,8 @@ protected:
     virtual void Tick(float DeltaTime) override;
     virtual void Possess(APawn* Pawn) override;
     
-    APawn* PossessedPawn;
-    AActor* Player;
+    APawn* Player;
+    AEnemy* Enemy;
     
     EAIState AIState;
     

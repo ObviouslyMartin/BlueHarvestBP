@@ -15,7 +15,7 @@ void AEnemyAI::BeginPlay()
 {
     Super::BeginPlay();
     AIState = EAIState::Start;
-    Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+    Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 }
 
 // Called every frame
@@ -28,11 +28,10 @@ void AEnemyAI::Tick(float DeltaTime)
 void AEnemyAI::Possess(APawn* Pawn)
 {
     Super::Possess(Pawn);
-    PossessedPawn = Pawn;
-    auto PossessedEnemy = (AEnemy*) Pawn;
-    if (PossessedEnemy)
+    Enemy = (AEnemy*) Pawn;
+    if (Enemy)
     {
-        RotSpeed = PossessedEnemy->RotSpeed;
+        RotSpeed = Enemy->RotSpeed;
     }
     
 }

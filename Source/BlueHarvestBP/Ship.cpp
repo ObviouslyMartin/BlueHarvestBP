@@ -3,17 +3,15 @@
 #include "Ship.h"
 
 
-AShip::AShip() : Super::AEnemy()
+AShip::AShip():
+  Super::AEnemy(),
+  PosRelToPlayer(500, 0, 0),
+  PosTolerance(50),
+  MaxSpeed(20),
+  Acceleration(10)
 {
     AIControllerClass = AShipAI::StaticClass();
-    MaxSpeed = 20;
-    Acceleration = 10;
     
-//    static ConstructorHelpers::FObjectFinder<UStaticMesh> UFOMesh(TEXT("/Game/Flying/Meshes/UFO.UFO"));
-//    if (UFOMesh.Succeeded())
-//    {
-//        Mesh->SetStaticMesh(UFOMesh.Object);
-//    }
 }
 
 void AShip::BeginPlay()
@@ -39,6 +37,11 @@ void AShip::DealDamage(float Damage, AActor* Target, DamageType Type)
 void AShip::Die()
 {
     Super::Die();
+}
+
+FRotator AShip::FacePlayer(float RotAmount)
+{
+    return Super::FacePlayer(RotAmount);
 }
 
 
