@@ -8,14 +8,10 @@
 #include "AIController.h"
 #include "Components/CapsuleComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/GameFramework/DamageType.h"
+
 
 #include "Enemy.generated.h"
-
-//Normal is also the count - 1, so Normal must remain LAST
-//Do NOT specify values, they must be from 0 to Normal - 1
-//UPROPERTY(VisibleAnywhere)
-enum class DamageType : uint8 { Normal UMETA(DisplayName="Normal") };
-
 
 UCLASS()
 class BLUEHARVESTBP_API AEnemy : public APawn
@@ -39,11 +35,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
     
-    virtual void DealDamage(float Damage, AActor* Target, DamageType Type);
+    virtual float DealDamage(const float &Damage, AActor* const& Target, TSubclassOf < class UDamageType > DamageTypeClass);
     virtual void Die();
-    virtual FRotator FacePlayer(float RotAmount);
+    virtual FRotator FacePlayer(const float &RotAmount);
+    virtual bool facingPlayer(const float &Tolerance) const;
+    virtual bool facingPlayer() const;
     
     AActor* Player;
+    TSubclassOf<class APawn> PlayerClass;
     UPROPERTY(EditAnywhere, Category = "Components")
     UStaticMeshComponent* Mesh;
     UPROPERTY(EditAnywhere, Category = "Components")
@@ -55,14 +54,16 @@ protected:
     float MaxHealth;
     float CurrentHealth;
     UPROPERTY(EditAnywhere, Category = "Stats")
-    float FireRate;
+    float FacingTolerance;
     UPROPERTY(EditAnywhere, Category = "Stats")
     float BaseDamage;
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float AimTolerance;
     //Array of defences/damage multipliers. User is expected to specify no  more than (number of damage types).
     //  Fixed-size arrays cannot be exposed to the editor
     //  Extra entrees will be discarded. Non-specified entries will be set to one.
-    UPROPERTY(EditAnywhere, Category = "Stats")
-    TArray<float> DmgMultipliers;
+//    UPROPERTY(EditAnywhere, Category = "Stats")
+//    TArray<float> DmgMultipliers;
     
     friend class AEnemyAI;
     

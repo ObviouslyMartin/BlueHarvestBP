@@ -7,7 +7,7 @@ AEnemy::AEnemy():
   RotSpeed(90),
   MaxHealth(50),
   CurrentHealth(MaxHealth),
-  FireRate(0.25)
+  FacingTolerance(10)
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -17,6 +17,14 @@ AEnemy::AEnemy():
     Mesh->SetupAttachment(RootComponent);
     Collider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collider"));
     Collider->SetupAttachment(RootComponent);
+    
+    static ConstructorHelpers::FClassFinder<APawn> PlayerClassOb(TEXT("/Game/FlyingBP/Blueprints/PlayerShip"));
+    PlayerClass = PlayerClassOb.Class;
+}
+
+float AEnemy::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+    return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 }
 
 float AEnemy::GetHealth() const
@@ -37,23 +45,16 @@ void AEnemy::BeginPlay()
     Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
     
     
-    while((DmgMultipliers.Num() < (int(DamageType::Normal) + 1)))
-    {
-        DmgMultipliers.Add(1.0f);
-    }
-    DmgMultipliers.SetNum(int(DamageType::Normal) + 1, true);
-	
+//    while((DmgMultipliers.Num() < (int(DamageType::Normal) + 1)))
+//    {
+//        DmgMultipliers.Add(1.0f);
+//    }
+//    DmgMultipliers.SetNum(int(DamageType::Normal) + 1, true);
 }
 
-float AEnemy::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+float AEnemy::DealDamage(const float &Damage, AActor* const& Target, TSubclassOf < class UDamageType > DamageTypeClass)
 {
-    return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);;
-}
-
-void AEnemy::DealDamage(float Damage, AActor* Target, DamageType Type)
-{
-    Target->TakeDamage(Damage, FDamageEvent(), GetInstigatorController(), this);
-
+    return UGameplayStatics::ApplyDamage (Target, Damage, GetController(), this, DamageTypeClass);
 }
 
 void AEnemy::Die()
@@ -61,7 +62,7 @@ void AEnemy::Die()
     
 }
 
-FRotator AEnemy::FacePlayer(float RotAmount)
+FRotator AEnemy::FacePlayer(const float &RotAmount)
 {
     if (!Player) { return FRotator(0); }
     auto ToPlayerVec =  Player->GetActorLocation() - GetActorLocation();
@@ -86,10 +87,7 @@ FRotator AEnemy::FacePlayer(float RotAmount)
         auto NewForward = GetActorForwardVector().RotateAngleAxis(RotAmount, RotAxis);
         auto NewForDot = FVector::DotProduct(GetActorForwardVector(), NewForward.GetSafeNormal());
         auto PlayerDot = FVector::DotProduct(GetActorForwardVector(), ToPlayerVec.GetSafeNormal());
-        if (GEngine)
-        {
-            GEngine->AddOnScreenDebugMessage(4, 1.f, FColor::Orange, FString::Printf(TEXT("\n\n\n\n\nNewForDot: %f, PlayerDot: %f"),NewForDot, PlayerDot));
-        }
+
         if (NewForDot < PlayerDot)
         {//if would rotate too far
             SetActorRotation(PlayerRelativeRot);
@@ -103,4 +101,17 @@ FRotator AEnemy::FacePlayer(float RotAmount)
     
     return PlayerRelativeRot;
 }
+
+bool AEnemy::facingPlayer(const float &tolerance) const
+{
+    FRotator toPlayerRot = (Player->GetActorLocation() - GetActorLocation()).Rotation();
+    return GetActorForwardVector().Rotation().Equals(toPlayerRot, tolerance);
+}
+
+bool AEnemy::facingPlayer() const
+{
+    return facingPlayer(FacingTolerance);
+}
+
+
 

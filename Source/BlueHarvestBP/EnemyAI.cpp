@@ -22,7 +22,6 @@ void AEnemyAI::BeginPlay()
 void AEnemyAI::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-    
 }
 
 void AEnemyAI::Possess(APawn* Pawn)
@@ -35,5 +34,4 @@ void AEnemyAI::Possess(APawn* Pawn)
     }
     
 }
-
 

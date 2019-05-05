@@ -3,8 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Runtime/Core/Public/Misc/OutputDeviceNull.h"
+
 #include "Enemy.h"
 #include "ShipAI.h"
+//#include "Projectile.h"
+
 #include "Ship.generated.h"
 
 /**
@@ -20,14 +24,20 @@ public:
     //Allows others to deal damage to this
     virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
     
+    USceneComponent* TargetComponent;
     
 protected:
     virtual void BeginPlay() override;
 
-    virtual void DealDamage(float Damage, AActor* Target, DamageType Type) override;
+    virtual float DealDamage(const float &Damage, AActor* const& Target, TSubclassOf < class UDamageType > DamageTypeClass) override;
     virtual void Die() override;
-    virtual FRotator FacePlayer(float RotAmount) override;
+    virtual FRotator FacePlayer(const float& RotAmount) override;
+    virtual bool facingPlayer(const float& Tolerance) const override;
+    virtual bool facingPlayer() const override;
+    
+//    virtual void Shoot();
 
+    // Ship Stats
     UPROPERTY(EditAnywhere, Category = "Stats")
     FVector PosRelToPlayer;
     UPROPERTY(EditAnywhere, Category = "Stats")
@@ -36,6 +46,24 @@ protected:
     float MaxSpeed;
     UPROPERTY(EditAnywhere, Category = "Stats")
     float Acceleration;
+    // Shot Stats
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float ShootRate;
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float ShotTravelSpeed;
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float HomingAccel;
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float ShotAccel;
+    
+//    UPROPERTY(EditAnywhere, Category = "Components")
+//    UStaticMeshComponent* ShotMesh;
+//    UPROPERTY(EditAnywhere, Category = "Components")
+//    UCapsuleComponent* ShotCollider;
+//    UPROPERTY(EditAnywhere, Category = "Components")
+//    AProjectile* ShotTemplate;
+    
+    
     
     friend class AShipAI;
 };

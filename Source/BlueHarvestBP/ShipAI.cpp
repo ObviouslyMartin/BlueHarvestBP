@@ -13,6 +13,13 @@ AShipAI::AShipAI() : AEnemyAI()
 void AShipAI::BeginPlay()
 {
     Super::BeginPlay();
+//    ShotDelay = ((Ship->ShootRate)? 1/Ship->ShootRate : Ship->ShootRate);
+//    auto ShotDelay = Ship->ShootRate;
+//
+//    FTimerDelegate ShootDelegate;
+//    ShootDelegate.BindUFunction(this, FName("ShootRoutune"), ShotTimer);
+//    GetWorldTimerManager().SetTimer(ShotTimer, ShootDelegate, ShotDelay, true);
+//    GetWorldTimerManager().PauseTimer(ShotTimer);
     
 }
 
@@ -33,8 +40,28 @@ void AShipAI::Tick(float DeltaTime)
             break;
             
         case EAIState::Attack:
-                PositionShip(Ship->MaxSpeed * DeltaTime);
-                if (Ship) { Ship->FacePlayer(RotSpeed * DeltaTime); }
+            PositionShip(Ship->MaxSpeed * DeltaTime);
+            if (Ship) { Ship->FacePlayer(RotSpeed * DeltaTime); }
+
+//            if(GetWorldTimerManager().IsTimerPaused(ShotTimer))
+//            {
+//                int i = 0;
+//            }
+            
+            //    GetWorldTimerManager().PauseTimer(ShotTimer);
+//            if(Ship && Ship->facingPlayer() && !GetWorldTimerManager().IsTimerActive(ShotTimer))
+//            {
+////                GetWorldTimerManager().UnPauseTimer(ShotTimer);
+////                Ship->Shoot();
+////                GetWorldTimerManager().SetTimer(ShotTimer, ShotDelay, false);
+//
+//            }
+//            if(GetWorldTimerManager().IsTimerPaused(ShotTimer) && Ship->facingPlayer())
+//            {
+//                GetWorldTimerManager().UnPauseTimer(ShotTimer);
+//
+//            }
+
             break;
             
         case EAIState::Idle:
@@ -110,11 +137,14 @@ bool AShipAI::isPositioned(float Tolerance)
     {
         PosDiff += Ship->PosRelToPlayer;
     }
-//    if (GEngine)
-//    {
-//        GEngine->AddOnScreenDebugMessage(3, 1.f, FColor::Orange, FString::Printf(TEXT("\n\n\n\nPosDiff: %f"),PosDiff.Size()));
-//        GEngine->AddOnScreenDebugMessage(4, 1.f, FColor::Orange, FString::Printf(TEXT("PlayerLoc: %f"),PlayerLoc.Size()));
-//        GEngine->AddOnScreenDebugMessage(5, 1.f, FColor::Orange, FString::Printf(TEXT("PawnLoc: %f"),PawnLoc.Size()));
-//    }
+
     return Tolerance >= PosDiff.Size();
 }
+
+//void AShipAI::ShootRoutine(FTimerHandle Timer)
+//{
+//
+//    if (Ship) { Ship->Shoot(); }
+////    GetWorldTimerManager().SetTimer(Timer, ShootDelegate, Delay, true);
+//    GetWorldTimerManager().PauseTimer(Timer);
+//}
