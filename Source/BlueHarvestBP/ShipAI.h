@@ -29,8 +29,8 @@ protected:
     
     virtual FVector PositionShip(float MoveSize, bool FaceForward = false);
     virtual bool isPositioned(float Tolerance);
-//    FTimerHandle ShotTimer;
-//    float ShotDelay;
+    FTimerHandle ShotTimer;
+    float ShotDelay;
             
     AShip* Ship;
 //    virtual void ShootRoutine(FTimerHandle Timer);

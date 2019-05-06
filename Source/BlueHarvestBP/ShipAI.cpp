@@ -13,7 +13,7 @@ AShipAI::AShipAI() : AEnemyAI()
 void AShipAI::BeginPlay()
 {
     Super::BeginPlay();
-//    ShotDelay = ((Ship->ShootRate)? 1/Ship->ShootRate : Ship->ShootRate);
+    ShotDelay = ((Ship->ShootRate)? 1/Ship->ShootRate : 1);
 //    auto ShotDelay = Ship->ShootRate;
 //
 //    FTimerDelegate ShootDelegate;
@@ -49,13 +49,13 @@ void AShipAI::Tick(float DeltaTime)
 //            }
             
             //    GetWorldTimerManager().PauseTimer(ShotTimer);
-//            if(Ship && Ship->facingPlayer() && !GetWorldTimerManager().IsTimerActive(ShotTimer))
-//            {
-////                GetWorldTimerManager().UnPauseTimer(ShotTimer);
-////                Ship->Shoot();
-////                GetWorldTimerManager().SetTimer(ShotTimer, ShotDelay, false);
-//
-//            }
+            if(((!GetWorldTimerManager().IsTimerActive(ShotTimer)) && Ship) && Ship->facingPlayer())
+            {
+//                GetWorldTimerManager().UnPauseTimer(ShotTimer);
+                Ship->Shoot();
+                GetWorldTimerManager().SetTimer(ShotTimer, ShotDelay, false);
+
+            }
 //            if(GetWorldTimerManager().IsTimerPaused(ShotTimer) && Ship->facingPlayer())
 //            {
 //                GetWorldTimerManager().UnPauseTimer(ShotTimer);

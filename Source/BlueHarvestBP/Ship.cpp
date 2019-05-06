@@ -14,7 +14,8 @@ AShip::AShip():
     AIControllerClass = AShipAI::StaticClass();
 //    ShotMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShotMesh"));
 //    ShotCollider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("ShotCollider"));
-//    ShotTemplate = CreateDefaultSubobject<AProjectile>(TEXT("ShotTemplate"));
+    ShotTemplate = CreateDefaultSubobject<UProjectile>(TEXT("ShotTemplate"));
+    AddOwnedComponent(ShotTemplate);
 //    ShotTemplate->SetOwner(this);
 //    auto AttachRules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
 //    ShotTemplate->AttachToComponent(RootComponent, AttachRules);
@@ -24,15 +25,12 @@ AShip::AShip():
 void AShip::BeginPlay()
 {
     Super::BeginPlay();
-//    if (GEngine) { GEngine->AddOnScreenDebugMessage(1, 1.f, FColor::Orange, FString::Printf(TEXT("Possessed: %s"), ((GetController()? TEXT("true"):TEXT("false") )))); }
+
     
 //    SetActorHiddenInGame(true);
     
     // Disables collision components
     SetActorEnableCollision(false);
-    
-    // Stops the Actor from ticking
-//    SetActorTickEnabled(false);
 
 }
 
@@ -42,7 +40,7 @@ float AShip::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AC
     return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 }
 
-float AShip::DealDamage(const float &Damage, AActor* const& Target, TSubclassOf < class UDamageType > DamageTypeClass)
+float AShip::DealDamage(const float &Damage, AActor* const& Target, TSubclassOf <class UDamageType> DamageTypeClass)
 {
     return Super::DealDamage(Damage, Target, DamageTypeClass);
 }
@@ -67,24 +65,12 @@ bool AShip::facingPlayer() const
     return Super::facingPlayer();
 }
 
-//void AShip::Shoot()
-//{
-//    FActorSpawnParameters SpawnParams;
-//    SpawnParams.Instigator = Instigator;
-//    SpawnParams.bNoFail = true;
-//    SpawnParams.Owner = this;
-////    SpawnParams.Template = ShotTemplate;
-////    auto Shot = GetWorld()->SpawnActor<AProjectile>(AProjectile::StaticClass(), GetActorLocation() + GetActorForwardVector() * 100, GetActorRotation(), SpawnParams);
-////    bool PlayerShip = Player->GetClass() == PlayerClass;
-////    TargetComponent = NULL;
-////    FOutputDeviceNull ar;
-////    FString command = FString::Printf(TEXT("GetTargetComponent %p"), TargetComponent);//*TargetComponent->GetName());
-////    if (PlayerShip) { Player->CallFunctionByNameWithArguments(*command, ar, this, false); }
-////    Shot->Initialize(GetVelocity() + GetActorForwardVector() * ShotTravelSpeed, NULL, 0, 0, NULL, ShotCollider);
-////    Shot->SetActorEnableCollision(false);
-////    if (Shot) { Shot->SetTarget(Cast<USceneComponent>(Player)); }
-//    if (GEngine) { GEngine->AddOnScreenDebugMessage(1, 1.f, FColor::Orange, FString::Printf(TEXT("!!!"))); }
-//}
+void AShip::Shoot()
+{
+    /*static auto NewComponent = */
+    UProjectile::SpawnFromTemplate(GetVelocity() + GetActorForwardVector() * ShotTemplate->getStartSpeed(), ShotTemplate, this);
+    
+}
 
 
 

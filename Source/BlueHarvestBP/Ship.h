@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Runtime/Core/Public/Misc/OutputDeviceNull.h"
-
 #include "Enemy.h"
+
 #include "ShipAI.h"
-//#include "Projectile.h"
+#include "Projectile.h"
 
 #include "Ship.generated.h"
 
@@ -27,6 +27,8 @@ public:
     USceneComponent* TargetComponent;
     
 protected:
+    friend class AShipAI;
+    
     virtual void BeginPlay() override;
 
     virtual float DealDamage(const float &Damage, AActor* const& Target, TSubclassOf < class UDamageType > DamageTypeClass) override;
@@ -35,8 +37,6 @@ protected:
     virtual bool facingPlayer(const float& Tolerance) const override;
     virtual bool facingPlayer() const override;
     
-//    virtual void Shoot();
-
     // Ship Stats
     UPROPERTY(EditAnywhere, Category = "Stats")
     FVector PosRelToPlayer;
@@ -46,24 +46,12 @@ protected:
     float MaxSpeed;
     UPROPERTY(EditAnywhere, Category = "Stats")
     float Acceleration;
-    // Shot Stats
     UPROPERTY(EditAnywhere, Category = "Stats")
     float ShootRate;
-    UPROPERTY(EditAnywhere, Category = "Stats")
-    float ShotTravelSpeed;
-    UPROPERTY(EditAnywhere, Category = "Stats")
-    float HomingAccel;
-    UPROPERTY(EditAnywhere, Category = "Stats")
-    float ShotAccel;
-    
-//    UPROPERTY(EditAnywhere, Category = "Components")
-//    UStaticMeshComponent* ShotMesh;
-//    UPROPERTY(EditAnywhere, Category = "Components")
-//    UCapsuleComponent* ShotCollider;
-//    UPROPERTY(EditAnywhere, Category = "Components")
-//    AProjectile* ShotTemplate;
+
+    UPROPERTY(EditAnywhere, Category = "Components")
+    UProjectile* ShotTemplate;
+    virtual void Shoot();
     
     
-    
-    friend class AShipAI;
 };
