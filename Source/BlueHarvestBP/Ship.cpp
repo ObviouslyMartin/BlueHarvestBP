@@ -40,6 +40,17 @@ float AShip::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AC
     return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 }
 
+//AShip* AShip::SpawnFromTemplate(const FVector& Location, AShip* const& Template, AActor* Owner)
+//{
+//    FActorSpawnParameters SpawnParams;
+//    SpawnParams.Template = Template;
+//    SpawnParams.Owner = Owner;
+//
+////    auto NewShip = Owner->GetWorld()->SpawnActor<AShip>(Location, FRotator(0), SpawnParams);
+//////    auto NewShip = Owner->GetWorld()->SpawnActor(AShip::StaticClass(), Location, FRotator(0), SpawnParams);
+//    return Template;
+//}
+
 float AShip::DealDamage(const float &Damage, AActor* const& Target, TSubclassOf <class UDamageType> DamageTypeClass)
 {
     return Super::DealDamage(Damage, Target, DamageTypeClass);

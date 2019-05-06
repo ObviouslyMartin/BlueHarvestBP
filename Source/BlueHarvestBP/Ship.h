@@ -22,7 +22,11 @@ public:
     AShip();
     
     //Allows others to deal damage to this
+    UFUNCTION(BlueprintCallable)
     virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+    
+//    UFUNCTION(BlueprintCallable)
+//    static AShip* SpawnFromTemplate(const FVector& Location, AShip* const& Template, AActor* Owner);
     
     USceneComponent* TargetComponent;
     
