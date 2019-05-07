@@ -35,8 +35,8 @@ void AShipAI::Tick(float DeltaTime)
             break;
             
         case EAIState::Position:
-            if (isPositioned(0)) { AIState = EAIState::Attack; }
-            else if (Ship) { PositionShip(Ship->MaxSpeed * DeltaTime, true); }
+            /*if (isPositioned(0)) { AIState = EAIState::Attack; }
+            else */if (Ship) { PositionShip(Ship->MaxSpeed * DeltaTime, true); }
             break;
             
         case EAIState::Attack:
@@ -95,7 +95,7 @@ FVector AShipAI::PositionShip(float MoveSize, bool FaceForward)
     auto Dest = FVector(0);
     if (Player && Ship)
     {
-        Dest =  Player->GetActorLocation();        
+        Dest =  Player->GetActorLocation();
         Dest += Player->GetActorForwardVector() * Ship->PosRelToPlayer.X;
         Dest += Player->GetActorRightVector()   * Ship->PosRelToPlayer.Y;
         Dest += Player->GetActorUpVector()      * Ship->PosRelToPlayer.Z;
@@ -121,6 +121,9 @@ FVector AShipAI::PositionShip(float MoveSize, bool FaceForward)
             Move += Enemy->GetActorLocation();
             NewPos = &(Move);
         }
+        
+//*NewPos = FVector(0);
+        
         Enemy->SetActorLocation(*NewPos);
         if (FaceForward) { Enemy->SetActorRotation(PosDiff.Rotation()); }
     }
