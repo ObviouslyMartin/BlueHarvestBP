@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "EnemyAI.h"
+#include "Enemy.h"
 
 AEnemyAI::AEnemyAI()
 {
@@ -13,22 +14,24 @@ AEnemyAI::AEnemyAI()
 void AEnemyAI::BeginPlay()
 {
     Super::BeginPlay();
-    
+    AIState = EAIState::Start;
+    Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 }
 
 // Called every frame
 void AEnemyAI::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-    
-    
 }
 
 void AEnemyAI::Possess(APawn* Pawn)
 {
     Super::Possess(Pawn);
-    PossessedPawn = Pawn;
+    Enemy = (AEnemy*) Pawn;
+    if (Enemy)
+    {
+        RotSpeed = Enemy->RotSpeed;
+    }
     
 }
-
 
