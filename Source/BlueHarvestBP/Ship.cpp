@@ -16,6 +16,7 @@ AShip::AShip():
 //    ShotCollider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("ShotCollider"));
     ShotTemplate = CreateDefaultSubobject<UProjectile>(TEXT("ShotTemplate"));
     AddOwnedComponent(ShotTemplate);
+    AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 //    ShotTemplate->SetOwner(this);
 //    auto AttachRules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
 //    ShotTemplate->AttachToComponent(RootComponent, AttachRules);
@@ -60,6 +61,7 @@ void AShip::Die()
 {
     Super::Die();
 }
+
 
 FRotator AShip::FacePlayer(const float& RotAmount)
 {//so friends can call it
