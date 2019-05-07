@@ -18,8 +18,8 @@ AEnemy::AEnemy():
     Collider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collider"));
     Collider->SetupAttachment(RootComponent);
     
-    static ConstructorHelpers::FClassFinder<APawn> PlayerClassOb(TEXT("/Game/FlyingBP/Blueprints/PlayerShip"));
-    PlayerClass = PlayerClassOb.Class;
+//    static ConstructorHelpers::FClassFinder<APawn> PlayerClassOb(TEXT("/Game/FlyingBP/Blueprints/PlayerShip"));
+//    PlayerClass = PlayerClassOb.Class;
 }
 
 float AEnemy::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

@@ -20,6 +20,9 @@ UCLASS( Blueprintable, BlueprintType, ClassGroup="BlueHarvest", meta=(BlueprintS
 public:
     AShip();
     
+    UFUNCTION(BlueprintCallable)
+    AShip* SpawnFromTemplate(const FVector& StartPos, AActor* InOwner = NULL);
+    
     //Allows others to deal damage to this
     virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
     

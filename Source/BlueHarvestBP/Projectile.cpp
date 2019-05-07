@@ -102,6 +102,11 @@ float UProjectile::getStartSpeed() const
     return StartSpeed;
 }
 
+void UProjectile::SetCollisionState(ECollisionEnabled::Type EnableState) const
+{
+    Collider->SetCollisionEnabled(EnableState);
+}
+
 // Called when the game starts or when spawned
 void UProjectile::BeginPlay()
 {

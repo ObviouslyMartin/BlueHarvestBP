@@ -93,11 +93,13 @@ void AShipAI::OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type
 FVector AShipAI::PositionShip(float MoveSize, bool FaceForward)
 {
     auto Dest = FVector(0);
-    if (Player)
+    if (Player && Ship)
     {
-        Dest = Player->GetActorLocation();
+        Dest =  Player->GetActorLocation();        
+        Dest += Player->GetActorForwardVector() * Ship->PosRelToPlayer.X;
+        Dest += Player->GetActorRightVector()   * Ship->PosRelToPlayer.Y;
+        Dest += Player->GetActorUpVector()      * Ship->PosRelToPlayer.Z;
     }
-    if (Ship) { Dest += Ship->PosRelToPlayer; }
 //    if(GetMoveStatus() == EPathFollowingStatus::Idle)
 //    {
 //        MoveToLocation(Dest, 0);

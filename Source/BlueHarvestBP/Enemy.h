@@ -42,7 +42,7 @@ protected:
     virtual bool facingPlayer() const;
     
     AActor* Player;
-    TSubclassOf<class APawn> PlayerClass;
+//    TSubclassOf<class APawn> PlayerClass;
     UPROPERTY(EditAnywhere, Category = "Components")
     UStaticMeshComponent* Mesh;
     UPROPERTY(EditAnywhere, Category = "Components")

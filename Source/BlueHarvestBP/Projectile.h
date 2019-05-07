@@ -42,6 +42,9 @@ public:
     UFUNCTION(BlueprintCallable)
     virtual float getStartSpeed() const;
     
+    UFUNCTION(BlueprintCallable)
+    virtual void SetCollisionState(ECollisionEnabled::Type EnableState) const;
+    
     
 protected:
     USceneComponent* RootComponent;

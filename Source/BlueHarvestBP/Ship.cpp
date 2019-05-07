@@ -26,12 +26,23 @@ void AShip::BeginPlay()
 {
     Super::BeginPlay();
 
-    
+    ShotTemplate->SetVisibility(false, true);
+    ShotTemplate->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 //    SetActorHiddenInGame(true);
-    
     // Disables collision components
-    SetActorEnableCollision(false);
+//    SetActorEnableCollision(false);
 
+}
+
+AShip* AShip::SpawnFromTemplate(const FVector& StartPos, AActor* InOwner)
+{
+    FActorSpawnParameters SpawnParams;
+    SpawnParams.Template = this;
+    if (InOwner) { SpawnParams.Owner = InOwner; }
+    auto NewShip = GetWorld()->SpawnActor<AShip>(StartPos, FRotator(0), SpawnParams);
+    NewShip->SetActorHiddenInGame(false);
+    NewShip->SetActorEnableCollision(true);
+    return NewShip;
 }
 
 //Allows others to deal damage to this
