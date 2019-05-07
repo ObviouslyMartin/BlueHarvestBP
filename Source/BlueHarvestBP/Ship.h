@@ -14,8 +14,7 @@
 /**
  * 
  */
-UCLASS()
-class BLUEHARVESTBP_API AShip : public AEnemy
+UCLASS( Blueprintable, BlueprintType, ClassGroup="BlueHarvest", meta=(BlueprintSpawnableComponent) ) class BLUEHARVESTBP_API AShip : public AEnemy
 {
 	GENERATED_BODY()
 public:
