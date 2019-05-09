@@ -13,8 +13,7 @@
 
 #include "Enemy.generated.h"
 
-UCLASS()
-class BLUEHARVESTBP_API AEnemy : public APawn
+UCLASS( Blueprintable, BlueprintType, ClassGroup="BlueHarvest", meta=(BlueprintSpawnableComponent) ) class BLUEHARVESTBP_API AEnemy : public APawn
 {
 	GENERATED_BODY()
 
@@ -22,14 +21,33 @@ public:
 	// Sets default values for this pawn's properties
 	AEnemy();
     
+    UFUNCTION(BlueprintCallable)
+    void InitEnemy(UStaticMeshComponent* InMesh, UCapsuleComponent* InCollider, float InRotSpeed, float InMaxHealth, float InFacingTolerance, float InBaseDamage, float InAimTolerance);
+    
     //Allows others to deal damage to this
     UFUNCTION(BlueprintCallable)
     virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+    
+
+    
+//    UFUNCTION(BlueprintCallable)
+//    UStaticMeshComponent* GetMesh() const;
+//    UFUNCTION(BlueprintCallable)
+//    UCapsuleComponent* GetCollider() const;
     
     UFUNCTION(BlueprintCallable)
     float GetHealth() const;
     UFUNCTION(BlueprintCallable)
     float GetMaxHealth() const;
+    
+//    UFUNCTION(BlueprintCallable)
+//    float GetRotSpeed()) const;
+//    UFUNCTION(BlueprintCallable)
+//    float GetFacingTolerance()) const;
+//    UFUNCTION(BlueprintCallable)
+//    float GetBaseDamage()) const;
+//    UFUNCTION(BlueprintCallable)
+//    float GetAimTolerance()) const;
     
 protected:
 	// Called when the game starts or when spawned
@@ -42,23 +60,25 @@ protected:
     virtual bool facingPlayer() const;
     
     AActor* Player;
-//    TSubclassOf<class APawn> PlayerClass;
+
     UPROPERTY(EditAnywhere, Category = "Components")
     UStaticMeshComponent* Mesh;
     UPROPERTY(EditAnywhere, Category = "Components")
     UCapsuleComponent* Collider;
     
     UPROPERTY(EditAnywhere, Category = "Stats")
-    float RotSpeed;
-    UPROPERTY(EditAnywhere, Category = "Stats")
     float MaxHealth;
     float CurrentHealth;
+    UPROPERTY(EditAnywhere, Category = "Stats")
+    float RotSpeed;
     UPROPERTY(EditAnywhere, Category = "Stats")
     float FacingTolerance;
     UPROPERTY(EditAnywhere, Category = "Stats")
     float BaseDamage;
     UPROPERTY(EditAnywhere, Category = "Stats")
     float AimTolerance;
+    
+    bool InitdEnemy;
     //Array of defences/damage multipliers. User is expected to specify no  more than (number of damage types).
     //  Fixed-size arrays cannot be exposed to the editor
     //  Extra entrees will be discarded. Non-specified entries will be set to one.

@@ -4,9 +4,9 @@
 
 // Sets default values
 AEnemy::AEnemy():
-  RotSpeed(90),
   MaxHealth(50),
   CurrentHealth(MaxHealth),
+  RotSpeed(90),
   FacingTolerance(10)
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -20,6 +20,21 @@ AEnemy::AEnemy():
     
 //    static ConstructorHelpers::FClassFinder<APawn> PlayerClassOb(TEXT("/Game/FlyingBP/Blueprints/PlayerShip"));
 //    PlayerClass = PlayerClassOb.Class;
+}
+
+void AEnemy::InitEnemy(UStaticMeshComponent* InMesh, UCapsuleComponent* InCollider, float InRotSpeed, float InMaxHealth, float InFacingTolerance, float InBaseDamage, float InAimTolerance)
+{
+    if(!InitdEnemy)
+    {
+        Mesh = InMesh;
+        Collider = InCollider;
+        RotSpeed = InRotSpeed;
+        MaxHealth = InMaxHealth;
+        FacingTolerance = InFacingTolerance;
+        BaseDamage = InBaseDamage;
+        AimTolerance = InAimTolerance;
+        InitdEnemy = true;
+    }
 }
 
 float AEnemy::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

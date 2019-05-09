@@ -17,6 +17,9 @@ class BLUEHARVESTBP_API AShipAI : public AEnemyAI
 public:
     AShipAI();
     
+    UFUNCTION(BlueprintCallable)
+    void SetShotDelayFromRate(float Rate);
+    
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;

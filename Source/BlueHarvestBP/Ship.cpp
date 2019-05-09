@@ -32,6 +32,7 @@ void AShip::BeginPlay()
 //    SetActorHiddenInGame(true);
     // Disables collision components
 //    SetActorEnableCollision(false);
+    SpawnDefaultController();
 
 }
 
@@ -41,9 +42,38 @@ AShip* AShip::SpawnFromTemplate(const FVector& StartPos, AActor* InOwner)
     SpawnParams.Template = this;
     if (InOwner) { SpawnParams.Owner = InOwner; }
     auto NewShip = GetWorld()->SpawnActor<AShip>(StartPos, FRotator(0), SpawnParams);
-    NewShip->SetActorHiddenInGame(false);
-    NewShip->SetActorEnableCollision(true);
+    {
+        NewShip->SetActorHiddenInGame(false);
+        NewShip->SetActorEnableCollision(true);
+        
+        InitializeComponents();
+        NewShip->Mesh->SetWorldLocation(NewShip->GetActorLocation());
+        NewShip->Collider->SetWorldLocation(NewShip->GetActorLocation());
+        
+    }
     return NewShip;
+}
+
+void AShip::InitShip (FVector InPosRelToPlayer, float InPosTolerance, float InMaxSpeed, float InAcceleration, float InShootRate, UProjectile* InShotTemplate, USceneComponent* InTargetComponent)
+{
+    if(!InitdShip)
+    {
+        PosRelToPlayer = InPosRelToPlayer;
+        PosTolerance = InPosTolerance;
+        MaxSpeed = InMaxSpeed;
+        Acceleration = InAcceleration;
+        ShootRate = InShootRate;
+        ShotTemplate = InShotTemplate;
+        TargetComponent = InTargetComponent;
+        auto ShipController = Cast<AShipAI>(GetController());
+        if(ShipController) { ShipController->SetShotDelayFromRate(ShootRate); }
+        
+        InitializeComponents();
+        Mesh->SetWorldLocation(GetActorLocation());
+        Collider->SetWorldLocation(GetActorLocation());
+        
+        InitdShip = true;
+    }
 }
 
 //Allows others to deal damage to this

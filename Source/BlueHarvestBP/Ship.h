@@ -23,10 +23,13 @@ public:
     UFUNCTION(BlueprintCallable)
     AShip* SpawnFromTemplate(const FVector& StartPos, AActor* InOwner = NULL);
     
+    UFUNCTION(BlueprintCallable)
+    void InitShip (FVector InPosRelToPlayer, float InPosTolerance, float InMaxSpeed, float InAcceleration, float InShootRate, UProjectile* InShotTemplate, USceneComponent* InTargetComponent);
+    
     //Allows others to deal damage to this
     virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
     
-    USceneComponent* TargetComponent;
+    
     
 protected:
     friend class AShipAI;
@@ -50,10 +53,14 @@ protected:
     float Acceleration;
     UPROPERTY(EditAnywhere, Category = "Stats")
     float ShootRate;
+    
+    USceneComponent* TargetComponent;
 
     UPROPERTY(EditAnywhere, Category = "Components")
     UProjectile* ShotTemplate;
     virtual void Shoot();
+    
+    bool InitdShip;
     
     
 };

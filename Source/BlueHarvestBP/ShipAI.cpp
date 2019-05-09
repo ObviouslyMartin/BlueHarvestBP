@@ -9,11 +9,16 @@ AShipAI::AShipAI() : AEnemyAI()
     
 }
 
+void AShipAI::SetShotDelayFromRate(float Rate)
+{
+    ShotDelay = ((Rate)? 1/Rate : 1);
+}
+
 // Called when the game starts or when spawned
 void AShipAI::BeginPlay()
 {
     Super::BeginPlay();
-    ShotDelay = ((Ship->ShootRate)? 1/Ship->ShootRate : 1);
+    if(Ship && !Ship->InitdShip) { SetShotDelayFromRate(Ship->ShootRate); }
 //    auto ShotDelay = Ship->ShootRate;
 //
 //    FTimerDelegate ShootDelegate;
@@ -22,7 +27,7 @@ void AShipAI::BeginPlay()
 //    GetWorldTimerManager().PauseTimer(ShotTimer);
     
 }
-
+//////////spawndefaultcontroller();
 // Called every frame
 void AShipAI::Tick(float DeltaTime)
 {
